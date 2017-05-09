@@ -1,11 +1,5 @@
 version: '3.2'
 services:
-  web-staging:
-    image: "nginx"
-  api-staging:
-    image: "uoacer/research-hub-api:staging"
-    volumes:
-      - ./staging.properties:/application.properties
   db-staging:
     image: "mysql:5.7"
     environment:
@@ -13,6 +7,14 @@ services:
       - MYSQL_ROOT_PASSWORD
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+  api-staging:
+    image: "uoacer/research-hub-api:staging"
+    volumes:
+      - ./staging.properties:/application.properties
+    depends_on:
+      - "db-staging"
+  web-staging:
+    image: "nginx"
   proxy-staging:
     image: "uoacer/research-hub-proxy:staging"
     ports:
