@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.0'
 services:
   db:
     image: "mysql:5.7"
@@ -8,15 +8,15 @@ services:
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
   api:
-    image: "uoacer/research-hub-api:${TAG}"
+    build: ../research-hub-api/
     depends_on:
       - "db"
   web:
-    image: "uoacer/research-hub:${TAG}"
+    build: ../research-hub-web/
     depends_on:
       - "api"
   proxy:
-    image: "uoacer/research-hub-proxy:${TAG}"
+    build: ../research-hub-proxy/
     ports:
       - "${HTTP_PORT}:${HTTP_PORT}"
       - "${HTTPS_PORT}:${HTTPS_PORT}"
