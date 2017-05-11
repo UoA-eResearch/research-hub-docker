@@ -11,3 +11,10 @@ To run the staging instance:
 ```bash
 sudo docker-compose -f docker-compose-staging.yml run
 ```
+
+chmod 777 schema.sql
+
+mysql -h db -P 3306 -uroot -p 123
+
+    volumes:
+      - ./${TAG}.properties:/application.properties
