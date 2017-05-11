@@ -1,0 +1,31 @@
+version: '3.2'
+services:
+  db:
+    image: "mysql:5.7"
+    environment:
+      - MYSQL_DATABASE=research_hub
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+  api:
+    image: "uoacer/research-hub-api:${TAG}"
+    depends_on:
+      - "db"
+  web:
+    image: "uoacer/research-hub:${TAG}"
+    depends_on:
+      - "api"
+  proxy:
+    image: "uoacer/research-hub-proxy:${TAG}"
+    ports:
+      - "${HTTP_PORT}:${HTTP_PORT}"
+      - "${HTTPS_PORT}:${HTTPS_PORT}"
+    volumes:
+      - ./server-ca.crt:/server-ca.crt
+      - ./server.crt:/server.crt
+      - ./server.key:/server.key
+    environment:
+      - SERVER_NAME=research-hub.cer.auckland.ac.nz
+      - HTTP_PORT=${HTTP_PORT}
+      - HTTPS_PORT=${HTTPS_PORT}
+    command: /bin/bash -c "/run-nginx.sh"
