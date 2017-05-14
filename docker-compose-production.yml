@@ -1,20 +1,11 @@
 version: '3.0'
 services:
-  db:
-    image: "mysql:5.7"
-    environment:
-      - MYSQL_DATABASE=research_hub
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    volumes:
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
   api:
-    build: ../research-hub-api/
-    depends_on:
-      - "db"
+    image: "alpine"
   web:
-    build: ../research-hub-web/
+    image: "uoacer/research-hub-web:${TAG}"
   proxy:
-    build: ../research-hub-proxy/
+    image: "uoacer/research-hub-proxy:${TAG}"
     ports:
       - "${HTTP_PORT}:${HTTP_PORT}"
       - "${HTTPS_PORT}:${HTTPS_PORT}"
@@ -30,3 +21,4 @@ services:
     depends_on:
       - "web"
       - "api"
+

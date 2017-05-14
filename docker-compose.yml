@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.0'
 services:
   db:
     image: "mysql:5.7"
@@ -12,9 +12,7 @@ services:
     depends_on:
       - "db"
   web:
-    image: "uoacer/research-hub:${TAG}"
-    depends_on:
-      - "api"
+    image: "uoacer/research-hub-web:${TAG}"
   proxy:
     image: "uoacer/research-hub-proxy:${TAG}"
     ports:
@@ -29,3 +27,7 @@ services:
       - HTTP_PORT=${HTTP_PORT}
       - HTTPS_PORT=${HTTPS_PORT}
     command: /bin/bash -c "/run-nginx.sh"
+    depends_on:
+      - "web"
+      - "api"
+
