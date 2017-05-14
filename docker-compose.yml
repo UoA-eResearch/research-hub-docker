@@ -7,12 +7,15 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    restart: always
   api:
     image: "uoacer/research-hub-api:${TAG}"
     depends_on:
       - "db"
+    restart: always
   web:
     image: "uoacer/research-hub-web:${TAG}"
+    restart: always
   proxy:
     image: "uoacer/research-hub-proxy:${TAG}"
     ports:
@@ -30,4 +33,5 @@ services:
     depends_on:
       - "web"
       - "api"
+    restart: always
 

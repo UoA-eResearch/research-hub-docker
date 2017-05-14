@@ -2,8 +2,10 @@ version: '3.0'
 services:
   api:
     image: "alpine"
+    restart: always
   web:
     image: "uoacer/research-hub-web:${TAG}"
+    restart: always
   proxy:
     image: "uoacer/research-hub-proxy:${TAG}"
     ports:
@@ -21,4 +23,5 @@ services:
     depends_on:
       - "web"
       - "api"
+    restart: always
 
