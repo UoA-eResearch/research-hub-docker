@@ -3,18 +3,35 @@ The Research Hub's deployment scripts
 
 ## Prerequisites
 
-* Ensure you have copied the ssl certificates into the project directory
+* Install docker-ce and docker-compose on your system.
+* Ensure you have copied ssl certificates (server.crt, server-ca.crt and server.key ) into the project directory.
+* Edit the environment variables in staging.env and production.env.
+* Edit the settings (e.g. the database password) in staging.properties and production.properties.
 
-## Setup staging instance
+## Deploy the staging instance
 
-To run the staging instance:
+Run the following commands:
+
 ```bash
-sudo docker-compose -f docker-compose-staging.yml run
+cd research-hub-deploy
+chmod 777 schema.sql
+source staging.env
+sudo -E docker-compose -f docker-compose.yml pull
+sudo -E docker-compose -f docker-compose.yml up -d
 ```
 
+## Deploy the production instance
+
+Run the following commands:
+
+```bash
+cd research-hub-deploy
 chmod 777 schema.sql
+source production.env
+sudo -E docker-compose -f docker-compose-production.yml pull
+sudo -E docker-compose -f docker-compose-production.yml up -d
+```
 
-mysql -h db -P 3306 -uroot -p 123
+## TODO
 
-    volumes:
-      - ./${TAG}.properties:/application.properties
+* Replace docker-compose-production.yml with docker-compose.yml after using new REST api in production.
