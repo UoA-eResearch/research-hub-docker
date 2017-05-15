@@ -2,6 +2,7 @@ version: '3.0'
 services:
   api:
     image: "alpine"
+    command: /bin/sh -c "tail -f /dev/null"
     restart: always
   web:
     image: "uoacer/research-hub-web:${TAG}"
