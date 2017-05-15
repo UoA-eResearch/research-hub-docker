@@ -3,7 +3,8 @@ The Research Hub's deployment scripts
 
 ## Prerequisites
 
-* Install docker-ce and docker-compose on your system.
+* Ubuntu 14.04 or 16.04
+* Install [docker-ce](https://docs.docker.com/engine/installation/linux/ubuntu/) and [docker-compose](https://docs.docker.com/compose/install/) on your system.
 * Ensure you have copied ssl certificates (server.crt, server-ca.crt and server.key ) into the project directory.
 * Edit the environment variables in staging.env and production.env.
 * Edit the settings (e.g. the database password) in staging.properties and production.properties.
@@ -26,7 +27,6 @@ Run the following commands:
 
 ```bash
 cd research-hub-deploy
-chmod 777 schema.sql
 source production.env
 sudo -E docker-compose -f docker-compose-production.yml pull
 sudo -E docker-compose -f docker-compose-production.yml up -d
