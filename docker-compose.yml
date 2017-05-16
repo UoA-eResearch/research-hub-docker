@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   db:
-    build: "uoacer/research-hub-db:${TAG}"
+    image: "uoacer/research-hub-db:${TAG}"
     environment:
       - MYSQL_DATABASE=research_hub
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
