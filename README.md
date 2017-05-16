@@ -9,6 +9,17 @@ The Research Hub's deployment scripts
 * Edit the environment variables in staging.env and production.env.
 * Edit the settings (e.g. the database password) in staging.properties and production.properties.
 
+## Test locally
+
+Run the following commands:
+
+```bash
+cd research-hub-deploy
+chmod 777 schema.sql
+source local.env && docker-compose -f docker-compose-local.yml build
+source local.env && docker-compose -f docker-compose-local.yml up
+```
+
 ## Deploy the staging instance
 
 Run the following commands:
@@ -16,9 +27,8 @@ Run the following commands:
 ```bash
 cd research-hub-deploy
 chmod 777 schema.sql
-source staging.env
-sudo -E docker-compose -f docker-compose.yml pull
-sudo -E docker-compose -f docker-compose.yml up -d
+source staging.env && sudo -E docker-compose -f docker-compose.yml pull
+source staging.env && sudo -E docker-compose -f docker-compose.yml up -d
 ```
 
 ## Deploy the production instance
@@ -27,9 +37,8 @@ Run the following commands:
 
 ```bash
 cd research-hub-deploy
-source production.env
-sudo -E docker-compose -f docker-compose-production.yml pull
-sudo -E docker-compose -f docker-compose-production.yml up -d
+source production.env && sudo -E docker-compose -f docker-compose-production.yml pull
+source production.env && sudo -E docker-compose -f docker-compose-production.yml up -d
 ```
 
 ## TODO

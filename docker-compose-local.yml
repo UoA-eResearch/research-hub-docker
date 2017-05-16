@@ -1,12 +1,16 @@
 version: '3.0'
 services:
   db:
-    image: "mysql:5.7"
+    build: ../research-hub-db/
     environment:
       - MYSQL_DATABASE=research_hub
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./data/dump:/data
+      - ./data/mysql:/var/lib/mysql
+      - ./data/log/cron:/var/log/cron
+      - ./data/log/mysql:/var/log/mysql
   api:
     build: ../research-hub-api/
     depends_on:

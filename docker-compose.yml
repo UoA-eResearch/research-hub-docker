@@ -1,12 +1,16 @@
 version: '3.0'
 services:
   db:
-    image: "mysql:5.7"
+    build: "uoacer/research-hub-db:${TAG}"
     environment:
       - MYSQL_DATABASE=research_hub
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - /data/${TAG}/dump:/data
+      - /data/${TAG}/mysql:/var/lib/mysql
+      - /data/${TAG}/log/cron:/var/log/cron
+      - /data/${TAG}/log/mysql:/var/log/mysql
     restart: always
   api:
     image: "uoacer/research-hub-api:${TAG}"
