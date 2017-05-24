@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   db:
-    image: "uoacer/research-hub-db:${TAG}"
+    image: "uoacer/mysql-auto-backup:${TAG}"
     environment:
       - MYSQL_DATABASE=research_hub
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}

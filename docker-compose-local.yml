@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   db:
-    build: ../research-hub-db/
+    build: ../mysql-auto-backup/
     environment:
       - MYSQL_DATABASE=research_hub
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
