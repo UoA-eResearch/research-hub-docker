@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  web:
+    build: ../research-hub-web/
+    restart: always
+  proxy:
+    build: ../research-hub-proxy/
+    ports:
+      - "${PROXY_HTTP_PORT}:${PROXY_HTTP_PORT}"
+      - "${PROXY_HTTPS_PORT}:${PROXY_HTTPS_PORT}"
+    volumes:
+      - ./server-ca.crt:/server-ca.crt
+      - ./server.crt:/server.crt
+      - ./server.key:/server.key
+    environment:
+      - PROXY_SERVER_NAME=${PROXY_SERVER_NAME}
+      - PROXY_HTTP_PORT=${PROXY_HTTP_PORT}
+      - PROXY_HTTPS_PORT=${PROXY_HTTPS_PORT}
+    command: /bin/bash -c "/run-nginx.sh"
+    depends_on:
+      - "web"
+      - "api"
+    restart: always
