@@ -6,221 +6,150 @@ CREATE DATABASE  IF NOT EXISTS `research_hub`;
 USE `research_hub`;
 
 
--- Table structure for categories
+-- Table structures for categories
 
-DROP TABLE IF EXISTS `product_type`;
-CREATE TABLE `product_type` (
+CREATE TABLE `content_type` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `provider`;
-CREATE TABLE `provider` (
+CREATE TABLE `content_subtype` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `life_cycle`;
-CREATE TABLE `life_cycle` (
+CREATE TABLE `research_phase` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `eligibility`;
-CREATE TABLE `eligibility` (
+CREATE TABLE `role_type` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `service_type`;
-CREATE TABLE `service_type` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `programme`;
-CREATE TABLE `programme` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+-- Table structures for objects
 
-DROP TABLE IF EXISTS `study_level`;
-CREATE TABLE `study_level` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `cost`;
-CREATE TABLE `cost` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
--- Table structure for table `product`
-
-DROP TABLE IF EXISTS `product`;
-CREATE TABLE `product` (
+CREATE TABLE `content` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `product_type_id` int(11) unsigned DEFAULT NULL,
-  `provider_id` int(11) unsigned DEFAULT NULL,
-  `summary` TEXT DEFAULT NULL,
-  `image_uri` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_product_productcategoryid_idx` (`product_type_id`),
-  KEY `fk_product_providercategoryid_idx` (`provider_id`),
-  CONSTRAINT `fk_product_productcategoryid` FOREIGN KEY (`product_type_id`) REFERENCES `product_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_product_providercategoryid` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `summary` varchar(255) DEFAULT NULL,
+  `description` TEXT DEFAULT NULL,
+  `actionable_info` TEXT DEFAULT NULL,
+  `additional_info` TEXT DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `call_to_action` TEXT DEFAULT NULL,
+  `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `updated` DATETIME ON UPDATE CURRENT_TIMESTAMP,
+  `audited` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `org_unit` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `url` TEXT DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `person` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `first_name` TEXT DEFAULT NULL,
+  `last_name` TEXT DEFAULT NULL,
+  `email` TEXT DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `job_title` TEXT DEFAULT NULL,
+  `directory_url` TEXT DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 
 -- Table structure for many to one relationships
 
-DROP TABLE IF EXISTS `requirement`;
-CREATE TABLE `requirement` (
+CREATE TABLE `content_webpage` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `name` TEXT DEFAULT NULL,
+  `content_id` int(11) unsigned NOT NULL,
+  `title` TEXT DEFAULT NULL,
+  `url` TEXT NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_requirement_productid_idx` (`product_id`),
-  CONSTRAINT `fk_requirement_productid` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY (`content_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `consideration`;
-CREATE TABLE `consideration` (
+CREATE TABLE `content_keyword` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `name` TEXT DEFAULT NULL,
+  `content_id` int(11) unsigned NOT NULL,
+  `keyword` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_consideration_productid_idx` (`product_id`),
-  CONSTRAINT `fk_consideration_productid` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY (`content_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `feature`;
-CREATE TABLE `feature` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `name` TEXT DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_feature_productid_idx` (`product_id`),
-  CONSTRAINT `fk_feature_productid` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `limitation`;
-CREATE TABLE `limitation` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `name` TEXT DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_limitation_productid_idx` (`product_id`),
-  CONSTRAINT `fk_limitation_productid` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `support`;
-CREATE TABLE `support` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `name` TEXT DEFAULT NULL,
-  `url` TEXT DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_support_productid_idx` (`product_id`),
-  CONSTRAINT `fk_support_productid` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `reference`;
-CREATE TABLE `reference` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `name` TEXT DEFAULT NULL,
-  `url` TEXT DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_reference_productid_idx` (`product_id`),
-  CONSTRAINT `fk_reference_productid` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `contact`;
-CREATE TABLE `contact` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) unsigned NOT NULL,
-  `name` TEXT DEFAULT NULL,
-  `url` TEXT DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_contact_productid_idx` (`product_id`),
-  CONSTRAINT `fk_contact_productid` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
 
 -- Table structure for many to many relationships
 
-DROP TABLE IF EXISTS `product_life_cycle`;
-CREATE TABLE `product_life_cycle` (
-  `product_id` int(11) unsigned NOT NULL,
-  `life_cycle_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`product_id`,`life_cycle_id`),
-  KEY `fk_productlifecycle_product_idx` (`product_id`),
-  KEY `fk_productlifecycle_lifecycle_idx` (`life_cycle_id`),
-  CONSTRAINT `fk_productlifecycle_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_productlifecycle_lifecycle` FOREIGN KEY (`life_cycle_id`) REFERENCES `life_cycle` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `content_content_type` (
+  `content_id` int(11) unsigned NOT NULL,
+  `content_type_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`content_id`,`content_type_id`),
+  KEY (`content_id`),
+  KEY (`content_type_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`content_type_id`) REFERENCES `content_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_eligibility`;
-CREATE TABLE `product_eligibility` (
-  `product_id` int(11) unsigned NOT NULL,
-  `eligibility_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`product_id`,`eligibility_id`),
-  KEY `fk_producteligibility_product_idx` (`product_id`),
-  KEY `fk_producteligibility_eligibility_idx` (`eligibility_id`),
-  CONSTRAINT `fk_producteligibility_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_producteligibility_eligibility` FOREIGN KEY (`eligibility_id`) REFERENCES `eligibility` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `content_content_subtype` (
+  `content_id` int(11) unsigned NOT NULL,
+  `content_subtype_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`content_id`,`content_subtype_id`),
+  KEY (`content_id`),
+  KEY (`content_subtype_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`content_subtype_id`) REFERENCES `content_subtype` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_service_type`;
-CREATE TABLE `product_service_type` (
-  `product_id` int(11) unsigned NOT NULL,
-  `service_type_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`product_id`,`service_type_id`),
-  KEY `fk_productservicetype_product_idx` (`product_id`),
-  KEY `fk_productservicetype_servicetype_idx` (`service_type_id`),
-  CONSTRAINT `fk_productservicetype_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_productservicetype_servicetype` FOREIGN KEY (`service_type_id`) REFERENCES `service_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `content_org_unit` (
+  `content_id` int(11) unsigned NOT NULL,
+  `org_unit_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`content_id`,`org_unit_id`),
+  KEY (`content_id`),
+  KEY (`org_unit_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`org_unit_id`) REFERENCES `org_unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_programme`;
-CREATE TABLE `product_programme` (
-  `product_id` int(11) unsigned NOT NULL,
-  `programme_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`product_id`,`programme_id`),
-  KEY `fk_productprogramme_product_idx` (`product_id`),
-  KEY `fk_productprogramme_programme_idx` (`programme_id`),
-  CONSTRAINT `fk_productprogramme_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_productprogramme_programme` FOREIGN KEY (`programme_id`) REFERENCES `programme` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `content_research_phase` (
+  `content_id` int(11) unsigned NOT NULL,
+  `research_phase_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`content_id`,`research_phase_id`),
+  KEY (`content_id`),
+  KEY (`research_phase_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`research_phase_id`) REFERENCES `research_phase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_study_level`;
-CREATE TABLE `product_study_level` (
-  `product_id` int(11) unsigned NOT NULL,
-  `study_level_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`product_id`,`study_level_id`),
-  KEY `fk_productstudylevel_product_idx` (`product_id`),
-  KEY `fk_productstudylevel_studylevel_idx` (`study_level_id`),
-  CONSTRAINT `fk_productstudylevel_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_productstudylevel_studylevel` FOREIGN KEY (`study_level_id`) REFERENCES `study_level` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `person_org_unit` (
+  `person_id` int(11) unsigned NOT NULL,
+  `org_unit_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`person_id`,`org_unit_id`),
+  KEY (`person_id`),
+  KEY (`org_unit_id`),
+  CONSTRAINT FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`org_unit_id`) REFERENCES `org_unit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_cost`;
-CREATE TABLE `product_cost` (
-  `product_id` int(11) unsigned NOT NULL,
-  `cost_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`product_id`,`cost_id`),
-  KEY `fk_productcost_product_idx` (`product_id`),
-  KEY `fk_productcost_cost_idx` (`cost_id`),
-  CONSTRAINT `fk_productcost_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_productcost_cost` FOREIGN KEY (`cost_id`) REFERENCES `cost` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `person_content_role` (
+  `person_id` int(11) unsigned NOT NULL,
+  `content_id` int(11) unsigned NOT NULL,
+  `role_type_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`person_id`, `content_id`, `role_type_id`),
+  CONSTRAINT FOREIGN KEY (`person_id`) REFERENCES `person` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`role_type_id`) REFERENCES `role_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
