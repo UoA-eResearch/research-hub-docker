@@ -1,7 +1,10 @@
 version: '3.0'
 services:
   web:
-    build: ../research-hub-web/
+    build:
+      context: ../research-hub-web/
+      args:
+        - WEB_ENVIRONMENT=${WEB_ENVIRONMENT}
     restart: always
   proxy:
     build: ../research-hub-proxy/
