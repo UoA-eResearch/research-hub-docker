@@ -2,3 +2,5 @@
 *.crt
 *.key
 *.xlsx
+prod.env
+stag.env
