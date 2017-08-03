@@ -83,11 +83,15 @@ source dev.env && python3 seed_db.py
 ```
 
 ## Troubleshooting
-##### 1. If the database doesn't seed properly
-You may need to run the following command:
+##### 1. Permission denied errors in mysql-auto-backup container:
+
 ```bash
-chmod 777 schema.sql
+db_1  | /entrypoint.sh: running /docker-entrypoint-initdb.d/seed-db.sh
+db_1  | /entrypoint.sh: line 179: /docker-entrypoint-initdb.d/seed-db.sh: Permission denied
 ```
+
+Ensure your user the right to read and or execute certain files, see fix-permissions.sh
+
 
 ##### 2. Permission denied while running docker
 ```
