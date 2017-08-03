@@ -1,0 +1,16 @@
+- git:
+    uri: https://github.com/UoA-eResearch/research-hub-api.git
+    local-name: research-hub-api
+    version: v0.1.0-alpha
+- git:
+    uri: https://github.com/UoA-eResearch/mysql-auto-backup.git
+    local-name: mysql-auto-backup
+    version: v0.1.0-alpha
+- git:
+    uri: https://github.com/UoA-eResearch/research-hub-proxy.git
+    local-name: research-hub-proxy
+    version: v0.1.0-alpha
+- git:
+    uri: https://github.com/UoA-eResearch/research-hub-web.git
+    local-name: research-hub-web
+    version: v0.7.0-alpha
