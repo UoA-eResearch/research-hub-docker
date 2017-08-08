@@ -122,6 +122,16 @@ CREATE TABLE `content_content_subtype` (
   CONSTRAINT FOREIGN KEY (`content_subtype_id`) REFERENCES `content_subtype` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `content_to_content` (
+  `content_id` int(11) unsigned NOT NULL,
+  `similar_content_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`content_id`,`similar_content_id`),
+  KEY (`content_id`),
+  KEY (`similar_content_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`similar_content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `content_org_unit` (
   `content_id` int(11) unsigned NOT NULL,
   `org_unit_id` int(11) unsigned NOT NULL,
