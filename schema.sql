@@ -2,9 +2,9 @@
 -- Create database
 
 DROP DATABASE IF EXISTS `research_hub`;
-CREATE DATABASE  IF NOT EXISTS `research_hub`;
-USE `research_hub`;
+CREATE DATABASE `research_hub`;
 
+USE `research_hub`;
 
 -- Table structures for categories
 
@@ -70,6 +70,14 @@ CREATE TABLE `person` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `policy` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` TEXT DEFAULT NULL,
+  `description` TEXT DEFAULT NULL,
+  `url` TEXT DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 
 -- Table structure for many to one relationships
 
@@ -132,6 +140,16 @@ CREATE TABLE `content_research_phase` (
   KEY (`research_phase_id`),
   CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FOREIGN KEY (`research_phase_id`) REFERENCES `research_phase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `content_policy` (
+  `content_id` int(11) unsigned NOT NULL,
+  `policy_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`content_id`,`policy_id`),
+  KEY (`content_id`),
+  KEY (`policy_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`policy_id`) REFERENCES `policy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `person_org_unit` (
