@@ -16,14 +16,22 @@ def load_db_config_env():
         'user': os.getenv('DB_MYSQL_USER', 'root'),
         'password': os.getenv('DB_MYSQL_PASSWORD', '123'),
         'database': os.getenv('DB_MYSQL_DATABASE', 'research_hub'),
-        'port': 3306
+        'port': 3306,
+        'use_unicode': True,
+        'charset': 'utf8'
     }
 
 
 def get_sheet_names(filename):
     excel = pd.ExcelFile(filename)
-    return excel.sheet_names
+    sheet_names = excel.sheet_names
+    to_insert = []
 
+    for sheet_name in sheet_names:
+        if not sheet_name.strip().startswith("#"):
+            to_insert.append(sheet_name)
+
+    return to_insert
 
 def get_columns_to_insert(df):
     headers = df.columns.values
@@ -73,4 +81,7 @@ if __name__ == "__main__":
         # Insert data into database
         with closing(get_connection(db_config)) as con:
             with con as cursor:
+                cursor.execute('SET NAMES utf8mb4')
+                cursor.execute("SET CHARACTER SET utf8mb4")
+                cursor.execute("SET character_set_connection=utf8mb4")
                 cursor.executemany(query, rows)
