@@ -14,12 +14,6 @@ CREATE TABLE `content_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `content_subtype` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
 CREATE TABLE `research_phase` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -110,16 +104,6 @@ CREATE TABLE `content_content_type` (
   KEY (`content_type_id`),
   CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FOREIGN KEY (`content_type_id`) REFERENCES `content_type` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `content_content_subtype` (
-  `content_id` int(11) unsigned NOT NULL,
-  `content_subtype_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`content_id`,`content_subtype_id`),
-  KEY (`content_id`),
-  KEY (`content_subtype_id`),
-  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT FOREIGN KEY (`content_subtype_id`) REFERENCES `content_subtype` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `content_to_content` (
