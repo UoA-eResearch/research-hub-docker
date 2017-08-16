@@ -1,0 +1,6 @@
+version: '3.0'
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${NETWORKS_IPAM_CONFIG_SUBNET}
