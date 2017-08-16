@@ -26,6 +26,7 @@ services:
       - DB_MYSQL_USER=${DB_MYSQL_USER}
     volumes:
       - ./application.properties:/application.properties
+      - ${API_ASSETS_DIR}:/assets
     depends_on:
       - "db"
     restart: always

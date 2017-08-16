@@ -4,3 +4,4 @@
 *.xlsx
 prod.env
 stag.env
+assets
