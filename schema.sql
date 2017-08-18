@@ -94,7 +94,32 @@ CREATE TABLE `content_keyword` (
   CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `guide_category` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` TEXT DEFAULT NULL,
+  `content_id` int(11) unsigned NOT NULL,
+  `display_order` int(11) unsigned NOT NULL,
+  `summary` TEXT DEFAULT NULL,
+  `description` TEXT DEFAULT NULL,
+  `additional_info` TEXT DEFAULT NULL,
+  `icon` TEXT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY (`content_id`),
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 -- Table structure for many to many relationships
+
+CREATE TABLE `guide_category_content` (
+  `guide_category_id` int(11) unsigned NOT NULL,
+  `content_id` int(11) unsigned NOT NULL,
+  `display_order` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`guide_category_id`,`content_id`),
+  KEY (`guide_category_id`),
+  KEY (`content_id`),
+  CONSTRAINT FOREIGN KEY (`guide_category_id`) REFERENCES `guide_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `content_content_type` (
   `content_id` int(11) unsigned NOT NULL,
