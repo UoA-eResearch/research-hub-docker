@@ -38,10 +38,12 @@ CREATE TABLE `content` (
   `additional_info` TEXT DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `call_to_action` TEXT DEFAULT NULL,
+  `keywords` TEXT DEFAULT NULL,
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME ON UPDATE CURRENT_TIMESTAMP,
   `audited` DATETIME DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY (`name`,`summary`,`description`,`actionable_info`,`additional_info`,`keywords`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `org_unit` (
@@ -61,7 +63,8 @@ CREATE TABLE `person` (
   `job_title` TEXT DEFAULT NULL,
   `directory_url` TEXT DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY (`title`,`first_name`,`last_name`,`job_title`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `policy` (
@@ -69,7 +72,8 @@ CREATE TABLE `policy` (
   `name` TEXT DEFAULT NULL,
   `description` TEXT DEFAULT NULL,
   `url` TEXT DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  FULLTEXT KEY (`name`,`description`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
@@ -91,6 +95,7 @@ CREATE TABLE `content_keyword` (
   `keyword` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY (`content_id`),
+  FULLTEXT KEY (`keyword`),
   CONSTRAINT FOREIGN KEY (`content_id`) REFERENCES `content` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
