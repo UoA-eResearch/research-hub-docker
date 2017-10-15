@@ -32,9 +32,13 @@ services:
       - DB_MYSQL_DATABASE=${DB_MYSQL_DATABASE}
       - DB_MYSQL_PASSWORD=${DB_MYSQL_PASSWORD}
       - DB_MYSQL_USER=${DB_MYSQL_USER}
+      - AUTOCER_DIR=/auto_cer
+      - PYTHONPATH=/auto_cer/lib/python
     volumes:
       - ./application.properties:/application.properties
       - ${API_ASSETS_DIR}:/assets
+      - ../auto_cer:/auto_cer
+      - ./config.ini:/auto_cer/etc/config.ini
     depends_on:
       - "db"
     restart: always
