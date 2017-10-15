@@ -5,9 +5,15 @@ services:
       context: ../research-hub-web/
       args:
         - WEB_ENVIRONMENT=${WEB_ENVIRONMENT}
+        - http_proxy
+        - https_proxy
     restart: always
   proxy:
-    build: ../research-hub-proxy/
+    build: 
+       context: ../research-hub-proxy/
+       args:
+           - http_proxy
+           - https_proxy
     ports:
       - "${PROXY_HTTP_PORT}:${PROXY_HTTP_PORT}"
       - "${PROXY_HTTPS_PORT}:${PROXY_HTTPS_PORT}"

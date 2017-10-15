@@ -1,7 +1,11 @@
 version: '3.0'
 services:
   db:
-    build: ../mysql-auto-backup/
+    build: 
+      context: ../mysql-auto-backup/
+      args:
+        - http_proxy
+        - https_proxy
     environment:
       - DB_MYSQL_USER=${DB_MYSQL_USER}
       - DB_MYSQL_PASSWORD=${DB_MYSQL_PASSWORD}
@@ -19,7 +23,11 @@ services:
       - ${DB_DATA_DIR}/log/mysql:/var/log/mysql
     restart: always
   api:
-    build: ../research-hub-api/
+    build: 
+      context: ../research-hub-api/
+      args:
+        - http_proxy
+        - https_proxy
     environment:
       - DB_MYSQL_DATABASE=${DB_MYSQL_DATABASE}
       - DB_MYSQL_PASSWORD=${DB_MYSQL_PASSWORD}
