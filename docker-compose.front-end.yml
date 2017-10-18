@@ -15,17 +15,16 @@ services:
            - http_proxy
            - https_proxy
     ports:
-      - "${PROXY_HTTP_PORT}:${PROXY_HTTP_PORT}"
-      - "${PROXY_HTTPS_PORT}:${PROXY_HTTPS_PORT}"
+      - "${PROXY_HTTP_PORT}:80"
+      - "${PROXY_HTTPS_PORT}:443"
     volumes:
-      - ./server-ca.crt:/server-ca.crt
-      - ./server.crt:/server.crt
-      - ./server.key:/server.key
+      - ./server-ca.crt:/usr/local/apache2/conf/keys/server-ca.crt
+      - ./server.crt:/usr/local/apache2/conf/keys/server.crt
+      - ./server.key:/usr/local/apache2/conf/keys/server.key
     environment:
       - PROXY_SERVER_NAME=${PROXY_SERVER_NAME}
       - PROXY_HTTP_PORT=${PROXY_HTTP_PORT}
       - PROXY_HTTPS_PORT=${PROXY_HTTPS_PORT}
-    command: /bin/bash -c "/run-nginx.sh"
     depends_on:
       - "web"
       - "api"
