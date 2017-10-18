@@ -21,6 +21,8 @@ services:
       - ./server-ca.crt:/usr/local/apache2/conf/keys/server-ca.crt
       - ./server.crt:/usr/local/apache2/conf/keys/server.crt
       - ./server.key:/usr/local/apache2/conf/keys/server.key
+      - ./sp-cert.pem:/etc/shibboleth/sp-cert.pem
+      - ./sp-key.pem:/etc/shibboleth/sp-key.pem
     environment:
       - PROXY_SERVER_NAME=${PROXY_SERVER_NAME}
       - PROXY_HTTP_PORT=${PROXY_HTTP_PORT}
