@@ -1,0 +1,5 @@
+-- https://dev.mysql.com/doc/refman/5.7/en/group-replication-ip-address-whitelisting.html
+
+STOP GROUP_REPLICATION;
+SET GLOBAL group_replication_ip_whitelist="127.0.0.1/8";
+START GROUP_REPLICATION;

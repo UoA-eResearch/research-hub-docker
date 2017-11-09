@@ -17,11 +17,14 @@ services:
       - ./seed_db.py:/docker-entrypoint-initdb.d/seed_db.py
       - ./database.xlsx:/docker-entrypoint-initdb.d/database.xlsx
       - ./seed-db.sh:/docker-entrypoint-initdb.d/seed-db.sh
+      - ./whitelist.sql:/docker-entrypoint-initdb.d/whitelist.sql
       - ${DB_DATA_DIR}/dump:/data
       - ${DB_DATA_DIR}/mysql:/var/lib/mysql
       - ${DB_DATA_DIR}/log/cron:/var/log/cron
       - ${DB_DATA_DIR}/log/mysql:/var/log/mysql
     restart: always
+    ports:
+      - 3306:3306
   api:
     build: 
       context: ../research-hub-api/
