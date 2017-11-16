@@ -8,6 +8,12 @@ USE `research_hub`;
 
 -- Table structures for categories
 
+CREATE TABLE `action_type` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `content_type` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -37,12 +43,15 @@ CREATE TABLE `content` (
   `actionable_info` TEXT DEFAULT NULL,
   `additional_info` TEXT DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `call_to_action` TEXT DEFAULT NULL,
+  `action` TEXT DEFAULT NULL,
+  `action_type_id` int(11) unsigned DEFAULT NULL,
   `keywords` TEXT DEFAULT NULL,
   `created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME ON UPDATE CURRENT_TIMESTAMP,
   `audited` DATETIME DEFAULT NULL,
   PRIMARY KEY (`id`),
+  KEY (`action_type_id`),
+  CONSTRAINT FOREIGN KEY (`action_type_id`) REFERENCES `action_type` (`id`),
   FULLTEXT KEY (`name`,`summary`,`description`,`actionable_info`,`additional_info`,`keywords`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
@@ -71,6 +80,7 @@ CREATE TABLE `policy` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` TEXT DEFAULT NULL,
   `description` TEXT DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `url` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`),
   FULLTEXT KEY (`name`,`description`)
