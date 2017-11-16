@@ -32,13 +32,15 @@ services:
       - DB_MYSQL_DATABASE=${DB_MYSQL_DATABASE}
       - DB_MYSQL_PASSWORD=${DB_MYSQL_PASSWORD}
       - DB_MYSQL_USER=${DB_MYSQL_USER}
-      - AUTOCER_DIR=/auto_cer
-      - PYTHONPATH=/auto_cer/lib/python
+      - SN_BASE_URL=${SN_BASE_URL}
+      - SN_USER=${SN_USER}
+      - SN_PASSWORD=${SN_PASSWORD}
+      - CER_VM_ASSINGMENT_GROUP_ID=${CER_VM_ASSINGMENT_GROUP_ID}
+      - CER_VM_BUSINESS_SERVICE_ID=${CER_VM_BUSINESS_SERVICE_ID}
+      - CER_VM_WATCH_LIST=${CER_VM_WATCH_LIST}
     volumes:
       - ./application.properties:/application.properties
       - ${API_ASSETS_DIR}:/assets
-      - ../auto_cer:/auto_cer
-      - ./config.ini:/auto_cer/etc/config.ini
     depends_on:
       - "db"
     restart: always
