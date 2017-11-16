@@ -27,6 +27,7 @@ services:
       - PROXY_SERVER_NAME=${PROXY_SERVER_NAME}
       - PROXY_HTTP_PORT=${PROXY_HTTP_PORT}
       - PROXY_HTTPS_PORT=${PROXY_HTTPS_PORT}
+      - PROXY_IDP_HOSTNAME=${PROXY_IDP_HOSTNAME}
     depends_on:
       - "web"
       - "api"
