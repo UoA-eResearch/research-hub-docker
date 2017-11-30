@@ -1,5 +1,5 @@
-# Research Hub deployment project
-The Research Hub's automated build scripts, created with Docker and Docker Compose.
+# Research Hub Docker Compose
+The Research Hub's Docker Compose project.
 
 ## Prerequisites
 * Ubuntu 16.04
