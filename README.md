@@ -8,14 +8,14 @@ The Research Hub's automated build scripts, created with Docker and Docker Compo
 i.e. development, staging and production. To install rosinstall execute the following command: `sudo pip install -U rosinstall`.
 
 ## Setup your workspace
-Create a directory on your machine, e.g. research_hub:
+Create a directory on the VM, e.g. research_hub:
 ```bash
-mkdir ~/workspace/research-hub/
+mkdir /data/research-hub/
 ```
 
 Navigate to the folder you just created and clone the research-hub-deploy project:
 ```bash
-cd ~/workspace/research-hub/
+cd /data/research-hub/
 git clone https://github.com/UoA-eResearch/research-hub-deploy.git
 ```
 
@@ -24,17 +24,17 @@ Navigate to the research-hub-deploy project:
 cd research-hub-deploy
 ```
 
-**Important**: ensure that you have copied the seed database excel file (database.xlsx) into research-hub-deploy.
+**Important**: ensure that you have copied the seed database excel file (database.xlsx) into /data/config.
 
 ## Development
 To build REST API and database, run the following command:
 ```bash
-./build-dev-backend.sh
+./scripts/docker-compose.backend.local.sh build
 ```
 
 Then run the following command to run them:
 ```bash
-./deploy-dev-backend.sh
+./scripts/docker-compose.backend.local.sh up
 ```
 
 To verify that the REST API is working, run the following command:
@@ -43,31 +43,37 @@ curl localhost:8080/content/1
 {"id":1,"name":"Research Virtual Machines","summary":"Support for specialised computing needs across different operating systems, interactive workflows, and externally facing services via the web.","description":"Many researchers need specialised computing facilities that support a variety of different operating systems, allow interactive use (rather than relying on a typical HPC batch scheduler), run for extended periods of time (months), and provide externa..."
 ```
 
-## Deploy to staging or production
-* Ensure you have copied the ssl certificates (server.crt, server-ca.crt and server.key) into the *research-hub-deploy* project directory.
-* Edit the environment variables in *stag.env* and *prod.env*.
-* To change the versions of each repository that are checked out for a particular environment, edit stag.rosinstall or prod.rosinstall.
+## Runnning on dev, test or prod
+TODO: this should be done with a CI tool.
 
-### Staging
-To build the staging instance, run the following command:
+* Customise the environment variables in `hub.env` file, for a particular environment.
+* Ensure you have copied the ssl certificates (server.crt, server-ca.crt and server.key) into the /data/config project directory.
+* To change the versions of each repository that are checked out for a particular environment, make a hub.rosinstall file
+and edit their version numbers (example can be found in hub.rosinstall.example).
+* Ensure that you have copied the seed database excel file (database.xlsx) into /data/config.
+
+To check out the source for all projects:
 ```bash
-./build-stag.sh
+./scripts/checkout.sh
+```
+To build:
+```bash
+./scripts/docker-compose.sh build
 ```
 
-To deploy the staging instance, run the following command:
+To run in foreground:
 ```bash
-./deploy-stag.sh
+./scripts/docker-compose.sh up
 ```
 
-### Production
-To build the production instance, run the following command:
+To stop:
 ```bash
-./build-prod.sh
+./scripts/docker-compose.sh down
 ```
 
-To deploy the staging instance, run the following command:
+To run in the background:
 ```bash
-./deploy-prod.sh
+./scripts/docker-compose.sh up -d
 ```
 
 ## Seeding a database manually
@@ -79,7 +85,7 @@ pip3 install pandas mysqlclient xlrd
 
 From the *research-hub-deploy* project directory, run the following command:
 ```bash
-source dev.env && python3 seed_db.py
+source hub.env && python3 ./scripts/seed_db.py
 ```
 
 ## Troubleshooting
@@ -90,7 +96,7 @@ db_1  | /entrypoint.sh: running /docker-entrypoint-initdb.d/seed-db.sh
 db_1  | /entrypoint.sh: line 179: /docker-entrypoint-initdb.d/seed-db.sh: Permission denied
 ```
 
-Ensure your user the right to read and or execute certain files, see fix-permissions.sh
+Ensure your user has the right to read and or execute these files.
 
 
 ##### 2. Permission denied while running docker
