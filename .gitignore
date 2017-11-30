@@ -1,8 +1,5 @@
 .idea
 *.crt
 *.key
-*.xlsx
-prod.env
-stag.env
-assets
-config.ini
+*.env
+data
