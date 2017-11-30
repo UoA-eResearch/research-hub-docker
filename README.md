@@ -1,5 +1,5 @@
-# Research Hub Docker Compose
-The Research Hub's Docker Compose project.
+# Research Hub Docker
+Docker Compose files and related scripts required to deploy the Research Hub.
 
 ## Prerequisites
 * Ubuntu 16.04
