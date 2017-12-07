@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source hub.env
+
 docker-compose \
     -f docker-compose.networks.yml \
     -f docker-compose.db.yml \
