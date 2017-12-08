@@ -16,6 +16,7 @@ services:
       - CER_VM_ASSIGNMENT_GROUP_ID=${CER_VM_ASSIGNMENT_GROUP_ID}
       - CER_VM_BUSINESS_SERVICE_ID=${CER_VM_BUSINESS_SERVICE_ID}
       - CER_VM_WATCH_LIST=${CER_VM_WATCH_LIST}
+      - https_proxy=${https_proxy}
     volumes:
       - ./application.properties:/application.properties
       - ${DATA_DIR}/assets:/assets
