@@ -39,7 +39,7 @@ def get_columns_to_insert(df):
 
     for header in headers:
         header_name = header.strip()
-        if header_name != "id" and not header_name.startswith("#"):
+        if not header_name.startswith("#"):
             to_insert.append(header)
 
     return to_insert
